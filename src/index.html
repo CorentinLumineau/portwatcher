@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PortWatcher</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>PortWatcher</h1>
+        <button id="refresh-btn" class="btn-primary" title="Refresh port list">
+            Refresh
+        </button>
+    </header>
+
+    <main>
+        <table id="port-table">
+            <thead>
+                <tr>
+                    <th>Process</th>
+                    <th>PID</th>
+                    <th>Port</th>
+                    <th>Protocol</th>
+                    <th>Address</th>
+                    <th>User</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="port-list">
+                <!-- Populated by JavaScript -->
+            </tbody>
+        </table>
+
+        <div id="empty-state" class="empty-state" style="display: none;">
+            <p>No listening ports found.</p>
+        </div>
+    </main>
+
+    <footer>
+        <span id="status">Loading...</span>
+        <span id="last-refresh"></span>
+    </footer>
+
+    <script type="module" src="main.js"></script>
+</body>
+</html>

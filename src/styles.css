@@ -1,0 +1,287 @@
+/* PortWatcher Styles */
+
+:root {
+    --bg-primary: #ffffff;
+    --bg-secondary: #f8f9fa;
+    --bg-hover: #e9ecef;
+    --text-primary: #212529;
+    --text-secondary: #6c757d;
+    --border-color: #dee2e6;
+    --primary-color: #0d6efd;
+    --danger-color: #dc3545;
+    --danger-hover: #bb2d3b;
+    --success-color: #198754;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg-primary: #1e1e1e;
+        --bg-secondary: #2d2d2d;
+        --bg-hover: #3d3d3d;
+        --text-primary: #e0e0e0;
+        --text-secondary: #adb5bd;
+        --border-color: #495057;
+        --primary-color: #4dabf7;
+        --danger-color: #f03e3e;
+        --danger-hover: #c92a2a;
+    }
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-size: 13px;
+    line-height: 1.4;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Header */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    background: var(--bg-secondary);
+    border-bottom: 1px solid var(--border-color);
+}
+
+header h1 {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+/* Buttons */
+.btn-primary {
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: opacity 0.15s ease;
+}
+
+.btn-primary:hover {
+    opacity: 0.85;
+}
+
+.btn-primary:active {
+    opacity: 0.75;
+}
+
+.btn-danger {
+    background: var(--danger-color);
+    color: white;
+    border: none;
+    padding: 4px 8px;
+    border-radius: 3px;
+    font-size: 11px;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+}
+
+.btn-danger:hover {
+    background: var(--danger-hover);
+}
+
+/* Main content */
+main {
+    flex: 1;
+    overflow: auto;
+    padding: 0;
+}
+
+/* Table */
+#port-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+}
+
+#port-table th {
+    background: var(--bg-secondary);
+    font-weight: 600;
+    text-align: left;
+    padding: 10px 12px;
+    border-bottom: 2px solid var(--border-color);
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+#port-table td {
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border-color);
+    vertical-align: middle;
+}
+
+#port-table tbody tr:hover {
+    background: var(--bg-hover);
+}
+
+#port-table tbody tr:nth-child(even) {
+    background: var(--bg-secondary);
+}
+
+#port-table tbody tr:nth-child(even):hover {
+    background: var(--bg-hover);
+}
+
+/* Column widths */
+#port-table th:nth-child(1),
+#port-table td:nth-child(1) {
+    /* Process */
+    max-width: 120px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+#port-table th:nth-child(2),
+#port-table td:nth-child(2) {
+    /* PID */
+    width: 60px;
+    text-align: right;
+    font-family: monospace;
+}
+
+#port-table th:nth-child(3),
+#port-table td:nth-child(3) {
+    /* Port */
+    width: 60px;
+    text-align: right;
+    font-family: monospace;
+    font-weight: 500;
+}
+
+#port-table th:nth-child(4),
+#port-table td:nth-child(4) {
+    /* Protocol */
+    width: 50px;
+    text-align: center;
+}
+
+#port-table th:nth-child(5),
+#port-table td:nth-child(5) {
+    /* Address */
+    width: 100px;
+    font-family: monospace;
+    font-size: 11px;
+}
+
+#port-table th:nth-child(6),
+#port-table td:nth-child(6) {
+    /* User */
+    width: 80px;
+}
+
+#port-table th:nth-child(7),
+#port-table td:nth-child(7) {
+    /* Action */
+    width: 60px;
+    text-align: center;
+}
+
+/* Protocol badges */
+.protocol-badge {
+    display: inline-block;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.protocol-tcp {
+    background: #d1e7dd;
+    color: #0f5132;
+}
+
+.protocol-udp {
+    background: #cff4fc;
+    color: #055160;
+}
+
+@media (prefers-color-scheme: dark) {
+    .protocol-tcp {
+        background: #1e4620;
+        color: #75b798;
+    }
+
+    .protocol-udp {
+        background: #0a4b5c;
+        color: #6edff6;
+    }
+}
+
+/* Empty state */
+.empty-state {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+    color: var(--text-secondary);
+}
+
+/* Footer */
+footer {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 16px;
+    background: var(--bg-secondary);
+    border-top: 1px solid var(--border-color);
+    font-size: 11px;
+    color: var(--text-secondary);
+}
+
+#status {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+#status.loading::before {
+    content: "";
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border: 2px solid var(--border-color);
+    border-top-color: var(--primary-color);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--text-secondary);
+}

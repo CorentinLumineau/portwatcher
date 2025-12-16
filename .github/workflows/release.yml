@@ -11,22 +11,13 @@ env:
 jobs:
   build-linux:
     runs-on: ubuntu-22.04
-    strategy:
-      matrix:
-        include:
-          - target: x86_64-unknown-linux-gnu
-            arch: amd64
-          - target: aarch64-unknown-linux-gnu
-            arch: arm64
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
       - name: Install Rust
-        uses: dtolnay/rust-action@stable
-        with:
-          targets: ${{ matrix.target }}
+        uses: dtolnay/rust-toolchain@stable
 
       - name: Install Linux dependencies
         run: |
@@ -39,20 +30,12 @@ jobs:
             libssl-dev \
             pkg-config
 
-      - name: Install cross-compilation tools (ARM64)
-        if: matrix.target == 'aarch64-unknown-linux-gnu'
-        run: |
-          sudo apt-get install -y \
-            gcc-aarch64-linux-gnu \
-            g++-aarch64-linux-gnu
-
       - name: Install Tauri CLI
         run: cargo install tauri-cli
 
       - name: Build Tauri App
-        run: |
-          cd src-tauri
-          cargo tauri build --target ${{ matrix.target }}
+        working-directory: src-tauri
+        run: cargo tauri build
 
       - name: Get version
         id: version
@@ -60,16 +43,16 @@ jobs:
 
       - name: Rename artifacts
         run: |
-          cd src-tauri/target/${{ matrix.target }}/release/bundle/deb
+          cd src-tauri/target/release/bundle/deb
           for f in *.deb; do
-            mv "$f" "portwatcher_${{ steps.version.outputs.version }}_${{ matrix.arch }}.deb"
+            mv "$f" "portwatcher_${{ steps.version.outputs.version }}_amd64.deb"
           done
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: linux-${{ matrix.arch }}
-          path: src-tauri/target/${{ matrix.target }}/release/bundle/deb/*.deb
+          name: linux-amd64
+          path: src-tauri/target/release/bundle/deb/*.deb
 
   create-release:
     needs: [build-linux]

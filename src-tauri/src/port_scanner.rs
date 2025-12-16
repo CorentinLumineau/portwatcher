@@ -18,6 +18,19 @@ impl PortScanner {
         Ok(entries)
     }
 
+    /// Scan a specific port range (inclusive)
+    pub fn scan_range(start: u16, end: u16) -> Result<Vec<RawSocketEntry>, ScanError> {
+        let all_entries = Self::scan_all()?;
+
+        // Filter to only include ports within the specified range
+        let filtered: Vec<RawSocketEntry> = all_entries
+            .into_iter()
+            .filter(|entry| entry.local_port >= start && entry.local_port <= end)
+            .collect();
+
+        Ok(filtered)
+    }
+
     /// Parse /proc/net/tcp for listening TCP sockets
     fn parse_tcp() -> Result<Vec<RawSocketEntry>, ScanError> {
         let content = fs::read_to_string("/proc/net/tcp").map_err(|e| ScanError::IoError {

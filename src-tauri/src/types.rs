@@ -86,6 +86,43 @@ pub struct ProcessInfo {
     pub user: String,
 }
 
+/// A range of ports to scan
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct PortRange {
+    /// Start of the port range (inclusive)
+    pub start: u16,
+    /// End of the port range (inclusive)
+    pub end: u16,
+}
+
+/// A preset configuration for port scanning
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct PortPreset {
+    /// Unique identifier for the preset
+    pub id: String,
+    /// Human-readable name
+    pub name: String,
+    /// Optional description
+    pub description: Option<String>,
+    /// Port ranges to scan
+    pub ranges: Vec<PortRange>,
+    /// Specific ports to scan (outside of ranges)
+    pub ports: Vec<u16>,
+}
+
+/// Statistics for the system tray tooltip
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct TrayStats {
+    /// Total number of listening ports
+    pub total_ports: usize,
+    /// Number of TCP ports
+    pub tcp_count: usize,
+    /// Number of UDP ports
+    pub udp_count: usize,
+    /// Number of unique processes
+    pub process_count: usize,
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;

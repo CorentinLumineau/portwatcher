@@ -16,6 +16,15 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install npm dependencies
+        run: npm ci
+
       - name: Install Rust
         uses: dtolnay/rust-toolchain@stable
 
@@ -34,8 +43,7 @@ jobs:
         run: cargo install tauri-cli
 
       - name: Build Tauri App
-        working-directory: src-tauri
-        run: cargo tauri build
+        run: npm run tauri build
 
       - name: Get version
         id: version

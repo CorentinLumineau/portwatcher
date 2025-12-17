@@ -65,11 +65,12 @@ detect_arch() {
 
 # Get current installed version
 get_current_version() {
-    if dpkg -l | grep -q "$APP_NAME"; then
+    info "Checking installed version..."
+    if dpkg -l 2>/dev/null | grep -q "$APP_NAME"; then
         CURRENT_VERSION=$(dpkg -l | grep "$APP_NAME" | awk '{print $3}')
         info "Current version: $CURRENT_VERSION"
     else
-        error "PortWatcher is not installed. Please run install.sh first."
+        error "PortWatcher is not installed via package manager. Please run install.sh first, or use 'npm run tauri dev' for development."
     fi
 }
 
@@ -77,12 +78,12 @@ get_current_version() {
 get_latest_version() {
     info "Checking for updates..."
 
-    LATEST_VERSION=$(curl -fsSL "https://api.github.com/repos/${REPO}/releases/latest" | \
+    LATEST_VERSION=$(curl -fsSL --connect-timeout 10 "https://api.github.com/repos/${REPO}/releases/latest" 2>/dev/null | \
         grep '"tag_name":' | \
         sed -E 's/.*"([^"]+)".*/\1/')
 
     if [ -z "$LATEST_VERSION" ]; then
-        error "Failed to fetch latest version. Check your internet connection."
+        error "Failed to fetch latest version. Check your internet connection or try again later."
     fi
 
     # Remove 'v' prefix if present
